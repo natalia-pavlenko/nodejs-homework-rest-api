@@ -4,14 +4,16 @@ const { SECRET_KEY } = process.env;
 
 const checkAuth = async (req, res, next) => {
   try {
-    const headerAuth = req.header.authorization || "";
+    const headerAuth = req.headers.authorization || "";
     if (!headerAuth) {
+   
       throw HttpErrors(401, "Not authorized");
     }
 
-    const [bearer, token] = headerAuth.split("", 2);
+    const [bearer, token] = await headerAuth.split(" ", 2);
 
     if (bearer !== "Bearer") {
+      console.log("error");
       throw HttpErrors(401, "Not authorized");
     }
     jwt.verify(token, SECRET_KEY, (err, decoded) => {
