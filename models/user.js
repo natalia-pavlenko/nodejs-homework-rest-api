@@ -1,3 +1,4 @@
+const { verify } = require("jsonwebtoken");
 const { Schema, model } = require("mongoose");
 
 const userSchema = new Schema(
@@ -17,11 +18,19 @@ const userSchema = new Schema(
       default: "starter",
     },
     token: String,
-
     avatarURL: String,
+
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+    },
   },
   { versionKey: false }
-);
+); 
 
 const UserModel = model("user", userSchema);
 
